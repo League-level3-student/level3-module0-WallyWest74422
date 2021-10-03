@@ -186,24 +186,24 @@ return test2;
      *    boundaries, return null.
      */
     public Integer getEastNeighbor(int[][] matrix, int row, int col) {
-if(matrix.length>col) {
-	 return matrix[row-1][col];
+if(matrix.length-1>col) {
+	 return matrix[row][col+1];
 } else {
 	return null;
 }
     }
     
     public Integer getWestNeighbor(int[][] matrix, int row, int col) {
-    	if(matrix.length<col) {
-    		 return matrix[row+1][col];
+    	if(0<col) {
+    		 return matrix[row][col-1];
     	} else {
     		return null;
     	}
     }
     
     public Integer getNorthNeighbor(int[][] matrix, int row, int col) {
-     	if(matrix.length<col) {
-   		 return matrix[row][col-1];
+     	if(0<row) {
+   		 return matrix[row-1][col];
    	} else {
    		return null;
    	} 
@@ -211,8 +211,8 @@ if(matrix.length>col) {
     }
     
     public Integer getSouthNeighbor(int[][] matrix, int row, int col) {
-    	if(matrix.length>row) {
-    		 return matrix[row][col+1];
+    	if(matrix.length-1>row) {
+    		 return matrix[row+1][col];
     	} else {
     		return null;
     	}
