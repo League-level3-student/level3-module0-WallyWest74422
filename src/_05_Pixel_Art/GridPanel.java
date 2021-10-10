@@ -3,6 +3,7 @@ package _05_Pixel_Art;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
@@ -52,7 +53,7 @@ for(int i = 0; i < pixels.length; i++) {
     public void clickPixel(int mouseX, int mouseY) {
         // 5. Use the mouseX and mouseY variables to change the color
         //    of the pixel that was clicked. *HINT* Use the pixel's dimensions.
-    	
+pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;        
     }
 
     @Override

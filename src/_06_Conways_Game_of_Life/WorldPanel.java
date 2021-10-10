@@ -11,6 +11,8 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import _05_Pixel_Art.Pixel;
+
 public class WorldPanel extends JPanel implements MouseListener, ActionListener {
     private static final long serialVersionUID = 1L;
     private int cellsPerRow;
@@ -19,7 +21,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
     private Timer timer;
 
     // 1. Create a 2D array of Cells. Do not initialize it.
-
+Cell [][] Cells;
 
     public WorldPanel(int w, int h, int cpr) {
         setPreferredSize(new Dimension(w, h));
@@ -28,19 +30,28 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
         this.cellsPerRow = cpr;
 
         // 2. Calculate the cell size.
-
+cellSize = w/cellsPerRow;
         // 3a. Initialize the cell array to the appropriate size.
-
+Cells = new Cell [w][h];
         // 3b. Iterate through the array and initialize each cell.
         //    Don't forget to consider the cell's dimensions when 
         //    passing in the location.
-
+for(int i = 0; i < Cells.length; i++) {
+	  for(int j = 0; j < Cells[i].length; j++) {
+      Cells[i][j]= new Cell(i*cellSize,j*cellSize,cellSize);
+  }
+}
     }
 
     public void randomizeCells() {
         // 4. Iterate through each cell and randomly set each
-        //    cell's isAlive memeber to true of false
-
+        //    cell's isAlive member to true of false
+    	Random ran = new Random();
+    	for(int i = 0; i < Cells.length; i++) {
+    		  for(int j = 0; j < Cells[i].length; j++) {
+    	        Cells[i][j].isAlive= ran.nextBoolean();
+    	    }
+    	  }
         repaint();
     }
 
