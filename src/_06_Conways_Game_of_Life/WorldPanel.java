@@ -57,7 +57,11 @@ for(int i = 0; i < Cells.length; i++) {
 
     public void clearCells() {
         // 5. Iterate through the cells and set them all to dead.
-
+    	for(int i = 0; i < Cells.length; i++) {
+  		  for(int j = 0; j < Cells[i].length; j++) {
+  	        Cells[i][j].isAlive = false;
+  	    }
+  	  }
         repaint();
     }
 
@@ -76,7 +80,11 @@ for(int i = 0; i < Cells.length; i++) {
     @Override
     public void paintComponent(Graphics g) {
         // 6. Iterate through the cells and draw them all
-
+    	for(int i = 0; i < Cells.length; i++) {
+  		  for(int j = 0; j < Cells[i].length; j++) {
+  	        Cells[i][j].draw(g);
+  	    }
+  	  }
 
         // Draw the perimeter of the grid
         g.setColor(Color.BLACK);
@@ -88,9 +96,24 @@ for(int i = 0; i < Cells.length; i++) {
         // 7. iterate through cells and fill in the livingNeighbors array
         //    using the getLivingNeighbors method.
         int[][] livingNeighbors = new int[cellsPerRow][cellsPerRow];
+    	for(int i = 0; i < Cells.length; i++) {
+  		  for(int j = 0; j < Cells[i].length; j++) {
+  	       livingNeighbors[i][j]=  getLivingNeighbors(Cells, i, j);
 
+  	    }
+  	  }
         // 8. check if each cell should live or die
-
+    	for(int i = 0; i < Cells.length; i++) {
+  		  for(int j = 0; j < Cells[i].length; j++) {
+if(livingNeighbors[i][j]==2) {
+	Cells[i][j].isAlive = true;
+}else if (livingNeighbors[i][j]==3) {
+	Cells[i][j].isAlive = true;
+}else {
+	Cells[i][j].isAlive = false;
+}
+  	    }
+  	  }
         repaint();
     }
 
@@ -155,7 +178,13 @@ for(int i = 0; i < Cells.length; i++) {
         //    cellSize, meaning it's possible to click inside of a cell. You
         //    have to determine the cell that was clicked from the pixel
         //    location and toggle the 'isAlive' variable for that cell.
-
+int whichRow =  e.getX()/cellSize;
+int whichCol =  e.getY()/cellSize;
+if(Cells[whichRow][whichCol].isAlive ==true) {
+	Cells[whichRow][whichCol].isAlive = false;
+}else if (Cells[whichRow][whichCol].isAlive ==false) {
+	Cells[whichRow][whichCol].isAlive =true;
+}
         repaint();
     }
 
