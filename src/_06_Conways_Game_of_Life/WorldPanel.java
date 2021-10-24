@@ -32,7 +32,7 @@ Cell [][] Cells;
         // 2. Calculate the cell size.
 cellSize = w/cellsPerRow;
         // 3a. Initialize the cell array to the appropriate size.
-Cells = new Cell [w][h];
+Cells = new Cell [cellsPerRow][cellsPerRow];
         // 3b. Iterate through the array and initialize each cell.
         //    Don't forget to consider the cell's dimensions when 
         //    passing in the location.
@@ -104,16 +104,11 @@ for(int i = 0; i < Cells.length; i++) {
   	  }
         // 8. check if each cell should live or die
     	for(int i = 0; i < Cells.length; i++) {
-  		  for(int j = 0; j < Cells[i].length; j++) {
-if(livingNeighbors[i][j]==2) {
-	Cells[i][j].isAlive = true;
-}else if (livingNeighbors[i][j]==3) {
-	Cells[i][j].isAlive = true;
-}else {
-	Cells[i][j].isAlive = false;
-}
-  	    }
-  	  }
+    		  for(int j = 0; j < Cells[i].length; j++) {
+Cells[i][j].liveOrDie(livingNeighbors[i][j]);
+    	  }
+    	}
+
         repaint();
     }
 
