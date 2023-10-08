@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 
@@ -16,6 +18,7 @@ public class GridPanel extends JPanel{
     private int pixelHeight;
     private int rows;
     private int cols;
+   
 
     // 1. Create a 2D array of pixels. Do not initialize it yet.
 Pixel[][] pixels;
@@ -69,5 +72,14 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
                 g.drawRect(pixels[i][j].x, pixels[i][j].y, pixelWidth, pixelHeight);
               }
             }
+    	  try {
+				FileWriter fw = new FileWriter("src/_05_Pixel_Art/SavedPixelArt.txt", true);
+				for (int i = 0; i < pixels.length; i++) {
+
+				}					 
+				fw.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
     }
 }

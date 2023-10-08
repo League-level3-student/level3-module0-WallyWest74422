@@ -1,12 +1,15 @@
 package _05_Pixel_Art;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,6 +25,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
     private JSlider rSlider;
     private JSlider gSlider;
     private JSlider bSlider;
+    public JButton save;
 
     private Color color;
 
@@ -36,6 +40,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
         rSlider = new JSlider(JSlider.VERTICAL);
         gSlider = new JSlider(JSlider.VERTICAL);
         bSlider = new JSlider(JSlider.VERTICAL);
+        save = new JButton("SAVE");
 
         rSlider.setMinimum(0);
         rSlider.setMaximum(MAX_COLOR - 1);
@@ -52,6 +57,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
         bSlider.addChangeListener(this);
 
         addMouseListener(this);
+
 
         colorLabel = new JLabel();
         colorImage = new BufferedImage(MAX_COLOR, MAX_COLOR, BufferedImage.TYPE_INT_RGB);
@@ -71,6 +77,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
         add(gSlider);
         add(new JLabel("blue"));
         add(bSlider);
+        add(save);
     }
 
     public Color getSelectedColor() {
@@ -125,4 +132,6 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
         colorLabel.setIcon(new ImageIcon(colorImage));
         add(colorLabel);
     }
+
+
 }
