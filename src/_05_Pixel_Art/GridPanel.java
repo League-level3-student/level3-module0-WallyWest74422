@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -22,6 +25,7 @@ public class GridPanel extends JPanel{
 
     // 1. Create a 2D array of pixels. Do not initialize it yet.
 Pixel[][] pixels;
+Pixel[][] oldPixels;
     private Color color;
 
     public GridPanel(int w, int h, int r, int c) {
@@ -37,15 +41,20 @@ Pixel[][] pixels;
 
         setPreferredSize(new Dimension(windowWidth, windowHeight));
 
+
+        
         // 2. Initialize the pixel array using the rows and cols variables.
 pixels = new Pixel[rows][cols];
+oldPixels = new Pixel[rows][cols];
 
         // 3. Iterate through the array and initialize each element to a new pixel.
 for(int i = 0; i < pixels.length; i++) {
 	  for(int j = 0; j < pixels[i].length; j++) {
         pixels[i][j]= new Pixel(i*pixelWidth,j*pixelHeight);
+        
     }
   }
+
 
     }
 
@@ -64,6 +73,19 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
         // 4. Iterate through the array.
         //    For every pixel in the list, fill in a rectangle using the pixel's color.
         //    Then, use drawRect to add a grid pattern to your display.
+		try {
+			FileReader fr = new FileReader("src/_05_Pixel_Art/SavedPixelArt.txt");
+			int c = fr.read();
+			while(c != -1){
+				System.out.print((char)c);
+				c = fr.read();
+			}
+			fr.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     	  for(int i = 0; i < pixels.length; i++) {
         	  for(int j = 0; j < pixels[i].length; j++) {
                   g.setColor(pixels[i][j].color);
@@ -72,11 +94,23 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
                 g.drawRect(pixels[i][j].x, pixels[i][j].y, pixelWidth, pixelHeight);
               }
             }
-    	  try {
-				FileWriter fw = new FileWriter("src/_05_Pixel_Art/SavedPixelArt.txt", true);
-				for (int i = 0; i < pixels.length; i++) {
 
-				}					 
+    }
+    
+    public void save() {
+  	  try {
+				FileWriter fw = new FileWriter("src/_05_Pixel_Art/SavedPixelArt.txt", true);
+		    	  for(int i = 0; i < pixels.length; i++) {
+		        	  for(int j = 0; j < pixels[i].length; j++) {
+fw.write(pixels[i][j].toString());
+System.out.print("X " +pixels[i][j].x);
+System.out.print(" Y " +pixels[i][j].y);
+System.out.print(" R "+ pixels[i][j].color.getRed());
+System.out.print(" B "+pixels[i][j].color.getBlue());
+System.out.println(" G "+pixels[i][j].color.getGreen());
+
+		              }
+		            }					 
 				fw.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
