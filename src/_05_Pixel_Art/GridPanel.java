@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JPanel;
-
 public class GridPanel extends JPanel{
 
     private static final long serialVersionUID = 1L;
@@ -20,13 +19,12 @@ public class GridPanel extends JPanel{
     private int pixelWidth;
     private int pixelHeight;
     private int rows;
-    private int cols;
-   
-
+    private int cols;  
+   private boolean loading;
     // 1. Create a 2D array of pixels. Do not initialize it yet.
 Pixel[][] pixels;
-Pixel[][] oldPixels;
     private Color color;
+    
 
     public GridPanel(int w, int h, int r, int c) {
         this.windowWidth = w;
@@ -45,7 +43,6 @@ Pixel[][] oldPixels;
         
         // 2. Initialize the pixel array using the rows and cols variables.
 pixels = new Pixel[rows][cols];
-oldPixels = new Pixel[rows][cols];
 
         // 3. Iterate through the array and initialize each element to a new pixel.
 for(int i = 0; i < pixels.length; i++) {
@@ -73,19 +70,7 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
         // 4. Iterate through the array.
         //    For every pixel in the list, fill in a rectangle using the pixel's color.
         //    Then, use drawRect to add a grid pattern to your display.
-		try {
-			FileReader fr = new FileReader("src/_05_Pixel_Art/SavedPixelArt.txt");
-			int c = fr.read();
-			while(c != -1){
-				System.out.print((char)c);
-				c = fr.read();
-			}
-			fr.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
     	  for(int i = 0; i < pixels.length; i++) {
         	  for(int j = 0; j < pixels[i].length; j++) {
                   g.setColor(pixels[i][j].color);
@@ -93,21 +78,68 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
                 g.setColor(color.BLACK);
                 g.drawRect(pixels[i][j].x, pixels[i][j].y, pixelWidth, pixelHeight);
               }
-            }
+    	  }
 
+    }
+
+    public void load() {
+    	try {
+    		BufferedReader br = new BufferedReader(new FileReader("src/_05_Pixel_Art/SavedPixelArt.txt"));
+    		
+    		String line = br.readLine();
+this.windowWidth = Integer.parseInt(line);
+line = br.readLine();
+this.windowHeight = Integer.parseInt(line);
+line = br.readLine();
+this.pixelWidth = Integer.parseInt(line);
+line = br.readLine();
+this.pixelHeight = Integer.parseInt(line);
+line = br.readLine();
+this.rows = Integer.parseInt(line);
+line = br.readLine();
+this.cols = Integer.parseInt(line);
+line = br.readLine();
+pixels = new Pixel[rows][cols];
+
+for(int i = 0; i < pixels.length; i++) {
+for(int j = 0; j < pixels[i].length; j++) {
+pixels[i][j]= new Pixel(i*pixelWidth,j*pixelHeight);
+String[] values = line.split(" ");
+int re = Integer.parseInt(values[0]);
+int bl = Integer.parseInt(values[1]);
+int gr = Integer.parseInt(values[2]);
+Color color = new Color(re, bl, gr);
+
+}
+}
+
+    		while(line != null){
+    			line = br.readLine();
+    		}
+    		
+    		br.close();
+    	} catch (FileNotFoundException e1) {
+    		// TODO Auto-generated catch block
+    		e1.printStackTrace();
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
     }
     
     public void save() {
   	  try {
 				FileWriter fw = new FileWriter("src/_05_Pixel_Art/SavedPixelArt.txt", true);
+				fw.write(this.windowWidth+ "\n");
+				fw.write(this.windowHeight+ "\n");
+				fw.write(this.pixelWidth+ "\n");
+				fw.write(this.pixelHeight+ "\n");
+				fw.write(this.rows + "\n");
+				fw.write(this.cols+ "\n");
 		    	  for(int i = 0; i < pixels.length; i++) {
 		        	  for(int j = 0; j < pixels[i].length; j++) {
-fw.write(pixels[i][j].toString());
-System.out.print("X " +pixels[i][j].x);
-System.out.print(" Y " +pixels[i][j].y);
-System.out.print(" R "+ pixels[i][j].color.getRed());
-System.out.print(" B "+pixels[i][j].color.getBlue());
-System.out.println(" G "+pixels[i][j].color.getGreen());
+		      
+fw.write(pixels[i][j].color.getRed()+ " " +pixels[i][j].color.getBlue()+ " "+ pixels[i][j].color.getGreen());
 
 		              }
 		            }					 
