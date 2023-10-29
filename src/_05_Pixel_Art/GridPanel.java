@@ -20,7 +20,7 @@ public class GridPanel extends JPanel{
     private int pixelHeight;
     private int rows;
     private int cols;  
-   private boolean loading;
+    private boolean loaded;
     // 1. Create a 2D array of pixels. Do not initialize it yet.
 Pixel[][] pixels;
     private Color color;
@@ -38,7 +38,7 @@ Pixel[][] pixels;
         color = Color.BLACK;
 
         setPreferredSize(new Dimension(windowWidth, windowHeight));
-
+loaded = false;
 
         
         // 2. Initialize the pixel array using the rows and cols variables.
@@ -79,25 +79,35 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
                 g.drawRect(pixels[i][j].x, pixels[i][j].y, pixelWidth, pixelHeight);
               }
     	  }
-
+this.load();
     }
 
     public void load() {
+    	System.out.println("Attempting to load previous file.");
+    
+    		System.out.println("Loading previous file");
     	try {
     		BufferedReader br = new BufferedReader(new FileReader("src/_05_Pixel_Art/SavedPixelArt.txt"));
     		
     		String line = br.readLine();
+    		if(line!=null&& !loaded) {
 this.windowWidth = Integer.parseInt(line);
+System.out.println("Changed ww...");
 line = br.readLine();
 this.windowHeight = Integer.parseInt(line);
+System.out.println("Changed wh...");
 line = br.readLine();
 this.pixelWidth = Integer.parseInt(line);
+System.out.println("Changed pw...");
 line = br.readLine();
 this.pixelHeight = Integer.parseInt(line);
+System.out.println("Changed ph...");
 line = br.readLine();
 this.rows = Integer.parseInt(line);
+System.out.println("Changed rows...");
 line = br.readLine();
 this.cols = Integer.parseInt(line);
+System.out.println("Changed cols...");
 line = br.readLine();
 pixels = new Pixel[rows][cols];
 
@@ -108,15 +118,15 @@ String[] values = line.split(" ");
 int re = Integer.parseInt(values[0]);
 int bl = Integer.parseInt(values[1]);
 int gr = Integer.parseInt(values[2]);
-Color color = new Color(re, bl, gr);
-
+System.out.println(re + " "+bl+ " "+gr);
+Color colores = new Color(re, bl, gr);
+System.out.println("Creating color.");
+pixels[i][j].color = colores;
+line = br.readLine();
 }
 }
-
-    		while(line != null){
-    			line = br.readLine();
-    		}
-    		
+loaded = true;
+    		} 		
     		br.close();
     	} catch (FileNotFoundException e1) {
     		// TODO Auto-generated catch block
@@ -125,11 +135,12 @@ Color color = new Color(re, bl, gr);
     		// TODO Auto-generated catch block
     		e.printStackTrace();
     	}
+    	
     }
     
     public void save() {
   	  try {
-				FileWriter fw = new FileWriter("src/_05_Pixel_Art/SavedPixelArt.txt", true);
+				FileWriter fw = new FileWriter("src/_05_Pixel_Art/SavedPixelArt.txt");
 				fw.write(this.windowWidth+ "\n");
 				fw.write(this.windowHeight+ "\n");
 				fw.write(this.pixelWidth+ "\n");
@@ -139,7 +150,7 @@ Color color = new Color(re, bl, gr);
 		    	  for(int i = 0; i < pixels.length; i++) {
 		        	  for(int j = 0; j < pixels[i].length; j++) {
 		      
-fw.write(pixels[i][j].color.getRed()+ " " +pixels[i][j].color.getBlue()+ " "+ pixels[i][j].color.getGreen());
+fw.write(pixels[i][j].color.getRed()+ " " +pixels[i][j].color.getBlue()+ " "+ pixels[i][j].color.getGreen() + "\n");
 
 		              }
 		            }					 

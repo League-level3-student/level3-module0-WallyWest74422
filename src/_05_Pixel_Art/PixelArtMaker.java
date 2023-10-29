@@ -1,13 +1,19 @@
 package _05_Pixel_Art;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class PixelArtMaker implements MouseListener, ActionListener{
     private JFrame window;
@@ -17,6 +23,42 @@ public class PixelArtMaker implements MouseListener, ActionListener{
     public JButton save;
 
     public void start() {
+    	int response = JOptionPane.showOptionDialog(null, "Would you like to load the previously saved file?", "Load?", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION, null, null, null);
+    	if(response==0) {
+            gip = new GridInputPanel(this);	
+            window = new JFrame("Pixel Art");
+            window.setLayout(new FlowLayout());
+            window.setResizable(false);
+            save = new JButton("SAVE");
+    save.addActionListener(this);
+            window.add(gip);
+            window.add(save);
+            window.pack();
+            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            window.setVisible(true);
+        	try {
+        		BufferedReader br = new BufferedReader(new FileReader("src/_05_Pixel_Art/SavedPixelArt.txt"));
+String line = br.readLine();
+int wi = Integer.parseInt(line);
+line = br.readLine();
+int he = Integer.parseInt(line);
+line = br.readLine();
+line = br.readLine();
+line = br.readLine();
+int ro = Integer.parseInt(line);
+line = br.readLine();
+int co = Integer.parseInt(line);
+        			
+        		br.close();
+        	} catch (FileNotFoundException e1) {
+        		// TODO Auto-generated catch block
+        		e1.printStackTrace();
+        	} catch (IOException e) {
+        		// TODO Auto-generated catch block
+        		e.printStackTrace();
+        	}
+//        	this.submitGridData(wi, he, ro, co);
+    	}else {
         gip = new GridInputPanel(this);	
         window = new JFrame("Pixel Art");
         window.setLayout(new FlowLayout());
@@ -28,17 +70,19 @@ save.addActionListener(this);
         window.pack();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
+    	}
         
     }
 
     public void submitGridData(int w, int h, int r, int c) {
         gp = new GridPanel(w, h, r, c);
-        csp = new ColorSelectionPanel();
+
         window.remove(gip);
         window.add(gp);
-        window.add(csp);
         gp.repaint();
         gp.addMouseListener(this);
+        csp = new ColorSelectionPanel();
+        window.add(csp);
         window.pack();
     }
 
