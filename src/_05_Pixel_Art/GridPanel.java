@@ -14,12 +14,12 @@ import javax.swing.JPanel;
 public class GridPanel extends JPanel{
 
     private static final long serialVersionUID = 1L;
-    private int windowWidth;
-    private int windowHeight;
+    public int windowWidth;
+    public int windowHeight;
     private int pixelWidth;
     private int pixelHeight;
-    private int rows;
-    private int cols;  
+    public int rows;
+    public int cols;  
     private boolean loaded;
     // 1. Create a 2D array of pixels. Do not initialize it yet.
 Pixel[][] pixels;
@@ -67,6 +67,8 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
 
     @Override
     public void paintComponent(Graphics g) {
+    	PixelArtMaker pam = new PixelArtMaker();
+    	
         // 4. Iterate through the array.
         //    For every pixel in the list, fill in a rectangle using the pixel's color.
         //    Then, use drawRect to add a grid pattern to your display.
@@ -79,7 +81,7 @@ pixels[mouseX/pixelWidth][mouseY/pixelHeight].color=color;
                 g.drawRect(pixels[i][j].x, pixels[i][j].y, pixelWidth, pixelHeight);
               }
     	  }
-this.load();
+
     }
 
     public void load() {
@@ -119,7 +121,7 @@ int re = Integer.parseInt(values[0]);
 int bl = Integer.parseInt(values[1]);
 int gr = Integer.parseInt(values[2]);
 System.out.println(re + " "+bl+ " "+gr);
-Color colores = new Color(re, bl, gr);
+Color colores = new Color(re, gr, bl);
 System.out.println("Creating color.");
 pixels[i][j].color = colores;
 line = br.readLine();
